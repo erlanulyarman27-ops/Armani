@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Дүкен</title>
+<style>
+:root{--bg:#f4f4f7;--s:#fff;--t:#1c1c24;--m:#6f7280;--l:#e3e3ea;--b:#7b04df;--ok:#1a9a4a;--tile:#efe6f8;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121216;--s:#1c1c23;--t:#eeeef3;--m:#9a9cab;--l:#2c2c36;--b:#a45cf0;--ok:#4cc77a;--tile:#2a2335}}
+:root[data-theme="dark"]{--bg:#121216;--s:#1c1c23;--t:#eeeef3;--m:#9a9cab;--l:#2c2c36;--b:#a45cf0;--ok:#4cc77a;--tile:#2a2335}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--t);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.5}
+header{background:#7b04df;color:#fff;padding:12px 14px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+header a{color:#fff;text-decoration:none;font-size:.9rem}
+.logo{font-weight:800;font-size:1.2rem}
+nav{display:flex;gap:12px;flex-wrap:wrap}
+nav.main{flex:1}
+nav a.on{text-decoration:underline}
+main{max-width:1000px;margin:0 auto;padding:16px}
+h1{font-size:1.4rem;margin:0 0 14px}
+button,.btn{font:inherit;cursor:pointer;border:0;border-radius:8px;padding:10px 16px;background:var(--b);color:#fff;text-decoration:none;display:inline-block}
+.line{background:transparent!important;color:var(--t)!important;border:1px solid var(--l)!important}
+a{color:var(--b)}
+:focus-visible{outline:3px solid #ffb400;outline-offset:2px}
+.tools{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+input,select,textarea{font:inherit;padding:10px;border:1px solid var(--l);border-radius:8px;background:var(--s);color:var(--t);width:100%}
+.tools input{flex:1;min-width:160px}.tools select{width:auto}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media(min-width:760px){.grid{grid-template-columns:repeat(4,1fr)}}
+.card{background:var(--s);border:1px solid var(--l);border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:6px}
+.card a.n{color:var(--t);text-decoration:none;font-size:.9rem;min-height:2.7em}
+.pic{aspect-ratio:1;background:var(--tile);border-radius:8px;display:grid;place-items:center;font-size:3rem}
+.price{font-weight:700}.muted{color:var(--m);font-size:.85rem}.ok{color:var(--ok);font-size:.85rem}
+.box{background:var(--s);border:1px solid var(--l);border-radius:12px;padding:16px;margin-bottom:14px}
+.form{display:grid;gap:10px;max-width:420px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px;border-bottom:1px solid var(--l);padding:10px 0}
+.det{display:grid;gap:16px}
+@media(min-width:700px){.det{grid-template-columns:1fr 1fr}}
+.det .pic{font-size:6rem}
+details{background:var(--s);border:1px solid var(--l);border-radius:10px;padding:12px;margin-bottom:8px}
+summary{cursor:pointer;font-weight:600}
+footer{text-align:center;color:var(--m);font-size:.8rem;padding:24px 16px}
+footer a{color:var(--m);margin:0 6px}
+</style>
+</head>
+<body>
+<header id="hdr"></header>
+<main id="app"></main>
+<footer>
+  <a href="#register">Тіркелу</a><a href="#delivery">Жеткізу</a><a href="#contacts">Байланыс</a>
+  <p>© 2026 Дүкен. Демо-сайт.</p>
+</footer>
+<script>
+const P=[
+ {id:1,name:"Ерлерге арналған жазғы «Виват» костюмі",price:16000,emoji:"🦺",seller:"ROBAMAG",stock:true,desc:"Жазғы жұмыс костюмі: күртеше және жартылай комбинезон. Тыныс алатын мата."},
+ {id:2,name:"Жұмыс технигі костюмі",price:6800,emoji:"👷",seller:"ROBAMAG",stock:true,desc:"Күртеше және жартылай комбинезон. Күнделікті жұмысқа арналған."},
+ {id:3,name:"Қарлы боран костюмі",price:15500,emoji:"🧥",seller:"ROBAMAG",stock:true,desc:"Суық ауа райына арналған жылы костюм."},
+ {id:4,name:"«Көшбасшы» костюмі 100% мақта",price:13800,emoji:"🥼",seller:"ROBAMAG",stock:true,desc:"Таза мақтадан тігілген, денеге жайлы."},
+ {id:5,name:"Қысқы жұмысшы «Премьер» костюмі",price:22000,emoji:"🧥",seller:"ROBAMAG",stock:true,desc:"Қысқы мезгілге арналған жылытылған костюм."},
+ {id:6,name:"Лыжный зимний костюм Elfners 808",price:55000,emoji:"⛷️",seller:"Нур-Береке 2014",stock:true,desc:"Шаңғы және қысқы серуенге арналған костюм."},
+ {id:7,name:"«Маман» жылы кеудеше",price:8000,emoji:"🦺",seller:"Нур-Береке 2014",stock:false,desc:"Тапсырыс бойынша тігіледі."},
+ {id:8,name:"Жүннен тоқылған жұмыс кофтасы",price:14500,emoji:"🧶",seller:"Алмастрой",stock:true,desc:"Ашық сұр түсті флис кофта."},
+ {id:9,name:"Ерлерге арналған түкті монша халаты",price:18500,emoji:"🛁",seller:"Домашний Уют",stock:true,desc:"Жұмсақ, суды жақсы сіңіреді."},
+ {id:10,name:"Ерлерге арналған велюр халат",price:12800,emoji:"🧖",seller:"Zlata",stock:true,desc:"Үйге арналған жеңіл халат."},
+ {id:11,name:"Ер адамның бас орамалы (куфия)",price:7500,emoji:"🧣",seller:"Домашний Уют",stock:true,desc:"Мақта мата, әртүрлі пайдалануға болады."},
+ {id:12,name:"Киім сақтауға арналған қап 60×90 см",price:1931,emoji:"👔",seller:"LanDuken.kz",stock:true,desc:"Костюм мен пальтоны шаңнан қорғайды."}
+];
+const fmt=n=>n.toLocaleString("ru-RU")+" ₸";
+let mem={cart:{},user:null};
+const ls={
+ get(k){try{const v=localStorage.getItem(k);return v?JSON.parse(v):mem[k]}catch(e){return mem[k]}},
+ set(k,v){mem[k]=v;try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+};
+const getCart=()=>ls.get("cart")||{};
+const cartCount=()=>Object.values(getCart()).reduce((a,b)=>a+b,0);
+function setCart(c){ls.set("cart",c);header()}
+function add(id){const c=getCart();c[id]=(c[id]||0)+1;setCart(c)}
+const $=id=>document.getElementById(id);
+const app=$("app");
+
+function header(){
+ const cur=(location.hash||"#home").slice(1);
+ const L=[["home","Каталог"],["delivery","Жеткізу"],["about","Біз туралы"],["contacts","Байланыс"],["faq","Сұрақтар"]];
+ const u=ls.get("user");
+ $("hdr").innerHTML=`<a class="logo" href="#home">Дүкен</a>
+ <nav class="main">${L.map(([h,t])=>`<a href="#${h}" class="${h===cur?"on":""}">${t}</a>`).join("")}</nav>
+ <nav><a href="${u?"#home":"#login"}">${u?u.name:"Кіру"}</a><a href="#cart">Себет (${cartCount()})</a></nav>`;
+}
+
+const views={
+ home(){
+  app.innerHTML=`<h1>Ерлерге арналған киім дүкені</h1>
+  <div class="tools"><input id="q" type="search" placeholder="Тауар іздеу" aria-label="Іздеу">
+  <select id="s" aria-label="Сұрыптау"><option value="">Рейтинг бойынша</option><option value="a">Арзанырақ</option><option value="d">Қымбатырақ</option></select></div>
+  <div class="grid" id="g"></div>`;
+  const q=$("q"),s=$("s"),g=$("g");
+  function draw(){
+   let a=P.filter(p=>p.name.toLowerCase().includes(q.value.toLowerCase()));
+   if(s.value==="a")a=[...a].sort((x,y)=>x.price-y.price);
+   if(s.value==="d")a=[...a].sort((x,y)=>y.price-x.price);
+   g.innerHTML=a.length?"":'<p class="muted">Ештеңе табылмады.</p>';
+   a.forEach(p=>{
+    const c=document.createElement("article");c.className="card";
+    c.innerHTML=`<a href="#product-${p.id}"><div class="pic">${p.emoji}</div></a>
+    <a class="n" href="#product-${p.id}">${p.name}</a>
+    <div class="${p.stock?"ok":"muted"}">${p.stock?"Бар":"Тапсырыс бойынша"}</div>
+    <div class="price">${fmt(p.price)}</div><div class="muted">${p.seller}</div>`;
+    const b=document.createElement("button");b.textContent="Сатып алу";
+    b.onclick=()=>{add(p.id);b.textContent="Қосылды ✓"};
+    c.appendChild(b);g.appendChild(c);
+   });
+  }
+  q.oninput=s.onchange=draw;draw();
+ },
+ product(id){
+  const p=P.find(x=>x.id==id);
+  if(!p){app.innerHTML='<p>Тауар табылмады. <a href="#home">Каталогқа оралу</a></p>';return}
+  app.innerHTML=`<p class="muted"><a href="#home">Каталог</a> › ${p.name}</p>
+  <div class="det"><div class="pic">${p.emoji}</div><div><h1>${p.name}</h1>
+  <p class="${p.stock?"ok":"muted"}">${p.stock?"Бар":"Тапсырыс бойынша"}</p>
+  <p class="price" style="font-size:1.6rem">${fmt(p.price)}</p><p>${p.desc}</p>
+  <p class="muted">Сатушы: ${p.seller}</p>
+  <button id="add">Себетке қосу</button> <a class="btn line" href="#cart">Себетке өту</a></div></div>`;
+  $("add").onclick=()=>{add(p.id);$("add").textContent="Қосылды ✓"};
+ },
+ cart(){
+  app.innerHTML='<h1>Себет</h1><div class="box" id="c"></div>';
+  const c=$("c");
+  function draw(){
+   const cart=getCart(),ids=Object.keys(cart);let t=0;
+   if(!ids.length){c.innerHTML='<p>Себет бос. <a href="#home">Каталогқа өту</a></p>';return}
+   c.innerHTML="";
+   ids.forEach(id=>{
+    const p=P.find(x=>x.id==id);if(!p)return;t+=p.price*cart[id];
+    const r=document.createElement("div");r.className="row";
+    r.innerHTML=`<span>${p.emoji} ${p.name}<br><span class="muted">${fmt(p.price)} × ${cart[id]}</span></span>`;
+    const m=document.createElement("button");m.className="line";m.textContent="Азайту";
+    m.onclick=()=>{const k=getCart();k[id]--;if(k[id]<1)delete k[id];setCart(k);draw()};
+    r.appendChild(m);c.appendChild(r);
+   });
+   c.insertAdjacentHTML("beforeend",`<div class="row"><strong>Барлығы</strong><strong>${fmt(t)}</strong></div><p><a class="btn" href="#checkout">Тапсырысты рәсімдеу</a></p>`);
+  }
+  draw();
+ },
+ checkout(){
+  app.innerHTML=`<h1>Тапсырысты рәсімдеу</h1><div class="box"><form class="form" id="f">
+  <input placeholder="Аты-жөні" required><input type="tel" placeholder="Телефон" required>
+  <input placeholder="Жеткізу мекенжайы" required>
+  <select><option>Қолма-қол төлем</option><option>Карта арқылы</option></select>
+  <button>Тапсырыс беру</button></form><p id="ok" class="ok"></p></div>`;
+  $("f").onsubmit=e=>{
+   e.preventDefault();
+   if(!cartCount()){$("ok").textContent="Себет бос. Алдымен тауар қосыңыз.";return}
+   setCart({});e.target.style.display="none";
+   $("ok").innerHTML='Тапсырыс қабылданды. Рақмет! <a href="#home">Каталогқа оралу</a>';
+  };
+ },
+ login(){
+  app.innerHTML=`<h1>Кіру</h1><div class="box"><form class="form" id="f">
+  <input name="e" type="email" placeholder="Email" required>
+  <input name="p" type="password" placeholder="Құпиясөз" required><button>Кіру</button></form>
+  <p class="muted">Аккаунт жоқ па? <a href="#register">Тіркелу</a></p></div>`;
+  $("f").onsubmit=e=>{
+   e.preventDefault();const d=new FormData(e.target),u=ls.get("user");
+   if(u&&u.email===d.get("e")&&u.pass===d.get("p")){location.hash="#home"}
+   else alert("Email немесе құпиясөз дұрыс емес. Алдымен тіркеліңіз.");
+  };
+ },
+ register(){
+  app.innerHTML=`<h1>Тіркелу</h1><div class="box"><form class="form" id="f">
+  <input name="n" placeholder="Атыңыз" required><input name="e" type="email" placeholder="Email" required>
+  <input name="p" type="password" placeholder="Құпиясөз (кемінде 6 таңба)" minlength="6" required>
+  <button>Тіркелу</button></form><p class="muted">Демо: деректер тек осы браузерде сақталады.</p></div>`;
+  $("f").onsubmit=e=>{
+   e.preventDefault();const d=new FormData(e.target);
+   ls.set("user",{name:d.get("n"),email:d.get("e"),pass:d.get("p")});location.hash="#home";
+  };
+ },
+ delivery(){
+  app.innerHTML=`<h1>Жеткізу және төлем</h1>
+  <div class="box"><h3>Жеткізу</h3><p>Қала ішінде 1–2 күнде. Басқа қалаларға 3–7 күнде.</p></div>
+  <div class="box"><h3>Төлем</h3><p>Қолма-қол төлем, банк картасы, аударым.</p></div>
+  <div class="box"><h3>Қайтару</h3><p>Сапасыз тауарды 14 күн ішінде қайтаруға болады.</p></div>`;
+ },
+ about(){
+  app.innerHTML=`<h1>Біз туралы</h1><div class="box"><p>Біз ерлерге арналған жұмыс және күнделікті киім сатамыз. Тауарлар қоймада бар, жеткізу бүкіл Қазақстан бойынша.</p></div>`;
+ },
+ contacts(){
+  app.innerHTML=`<h1>Байланыс</h1><div class="box">
+  <p><strong>Телефон:</strong> +7 700 000 00 00</p><p><strong>Email:</strong> info@example.kz</p>
+  <p><strong>Мекенжай:</strong> Алматы қ., Мысал көшесі, 1</p><p><strong>Жұмыс уақыты:</strong> Дс–Жм 9:00–18:00</p></div>
+  <div class="box"><form class="form" id="f"><input placeholder="Атыңыз" required>
+  <input type="email" placeholder="Email" required><textarea rows="4" placeholder="Хабарлама" required></textarea>
+  <button>Жіберу</button></form><p id="ok" class="ok"></p></div>`;
+  $("f").onsubmit=e=>{e.preventDefault();e.target.reset();$("ok").textContent="Хабарлама жіберілді (демо)."};
+ },
+ faq(){
+  app.innerHTML=`<h1>Жиі қойылатын сұрақтар</h1>
+  <details><summary>Тапсырысты қалай беремін?</summary><p>Тауарды себетке қосып, «Тапсырысты рәсімдеу» бетінде деректеріңізді толтырыңыз.</p></details>
+  <details><summary>Жеткізу қанша уақыт алады?</summary><p>Қала ішінде 1–2 күн, басқа қалаларға 3–7 күн.</p></details>
+  <details><summary>Тауарды қайтаруға бола ма?</summary><p>Иә, 14 күн ішінде, егер тауар қолданылмаған болса.</p></details>
+  <details><summary>Қалай төлеймін?</summary><p>Қолма-қол немесе банк картасымен.</p></details>`;
+ }
+};
+
+function route(){
+ const h=(location.hash||"#home").slice(1);
+ const m=h.match(/^product-(\d+)$/);
+ if(m)views.product(m[1]);
+ else if(views[h]&&h!=="product")views[h]();
+ else views.home();
+ header();window.scrollTo(0,0);
+}
+window.addEventListener("hashchange",route);
+route();
+</script>
+</body>
+</html>
